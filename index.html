@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>DerlysTopia</title>
+<link rel="icon" type="image/png" href="DerlysTopia_AppIcon.png">
+<style>
+:root{--blue:#0758c8;--blue2:#168cff;--cyan:#8ceaff;--panel:#0750b6;--white:#fff}
+*{box-sizing:border-box}body{margin:0;color:white;font:700 15px system-ui,Arial;background:#0a2d74;overflow:hidden}
+button,input,select{font:inherit}button{color:#fff;border:2px solid #9eeaff;border-radius:10px;background:linear-gradient(#27aaff,#0750c2);padding:9px 12px;box-shadow:inset 0 1px #fff5,0 2px #00327d;cursor:pointer;text-shadow:1px 2px #123}
+button:hover{filter:brightness(1.13)}button.green{background:linear-gradient(#5cff57,#13a62c)}button.purple{background:linear-gradient(#d45bff,#6924c5)}button.orange{background:linear-gradient(#ffbd45,#e66b00)}
+#scene{position:fixed;inset:0;background:linear-gradient(#43baff 0%,#b9f5ff 60%,#57e44a 60%,#258d25 100%);overflow:hidden}
+.cloud{position:absolute;background:#fff;border-radius:30px;opacity:.9;width:110px;height:28px;box-shadow:20px -12px #fff,50px 0 #fff,35px -20px #fff}
+.island{position:absolute;width:140px;height:55px;background:#31d340;border:5px solid #128b25;border-radius:10px;clip-path:polygon(0 0,100% 0,85% 40%,70% 100%,25% 100%,10% 40%);box-shadow:0 15px #8a4c25}
+#ground{position:absolute;left:-10%;bottom:0;width:120%;height:25%;background:repeating-linear-gradient(90deg,#8b542a 0 35px,#a76b3c 35px 70px);border-top:18px solid #39dc3e}
+#ground:before{content:"";position:absolute;top:-18px;width:100%;height:8px;background:#74f24b}
+#logo{position:absolute;top:2%;left:50%;transform:translateX(-50%);width:min(270px,55vw);border-radius:22px;filter:drop-shadow(0 4px 2px #063d80)}
+#top{position:absolute;top:10px;left:10px;display:flex;gap:8px;align-items:center}
+#top img{width:54px;height:54px;border-radius:13px;border:2px solid #8ceaff}
+.panel{background:linear-gradient(#168cff,#0644a4);border:3px solid #a3edff;border-radius:14px;box-shadow:0 0 0 3px #03408b,inset 0 0 12px #5bcaff;padding:12px}
+#mainMenu{position:absolute;top:27%;left:50%;transform:translateX(-50%);width:min(320px,88vw);display:grid;gap:8px}
+#mainMenu button{font-size:18px}
+#welcomebox{position:absolute;right:12px;top:12px;max-width:220px;text-align:center}
+#gameUI{display:none;position:absolute;inset:0}
+#playerStats{position:absolute;left:10px;top:10px}
+#inventory{position:absolute;right:10px;top:10px;width:min(350px,95vw);max-height:50vh;overflow:auto;display:none}
+#shop{position:absolute;right:10px;top:20%;width:min(350px,95vw);max-height:68vh;overflow:auto;display:none}
+#settings{position:absolute;right:10px;top:10px;width:min(340px,94vw);display:none}
+#worlds{position:absolute;left:50%;top:20%;transform:translateX(-50%);width:min(600px,95vw);display:none}
+#login{position:absolute;left:50%;top:20%;transform:translateX(-50%);width:min(350px,95vw);display:none}
+input,select{width:100%;padding:10px;border-radius:8px;border:2px solid #8bdfff;margin:5px 0;color:#114}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.item{background:#063b8e;border:2px solid #64cfff;border-radius:8px;text-align:center;padding:7px 2px;font-size:12px;cursor:pointer}.item .emoji{font-size:25px;display:block}.item small{display:block;color:#d9ffff}
+#controls{position:absolute;bottom:12px;left:12px;display:flex;gap:8px}#controls button{font-size:22px;min-width:52px}
+#hotbar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:4px}.hot{width:42px;height:42px;background:#063b8e;border:2px solid #6bdcff;border-radius:6px}
+#chat{position:absolute;bottom:75px;left:12px;background:#001b55b8;padding:8px;border-radius:8px;font-size:12px}
+#character{position:absolute;bottom:25%;left:48%;font-size:44px;filter:drop-shadow(2px 3px #333)}
+#toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#062e80;border:2px solid white;border-radius:10px;padding:12px;display:none;z-index:9}
+@media(max-width:600px){#logo{top:5%;width:190px}#mainMenu{top:30%;}#welcomebox{top:auto;bottom:15px;right:8px;font-size:12px}#inventory{top:8px;width:calc(100vw - 20px);max-height:42vh}#shop{top:10%;width:calc(100vw - 20px)}#worlds{top:12%}#character{left:42%}.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div id="scene">
+<div class="cloud" style="left:10%;top:12%"></div><div class="cloud" style="left:70%;top:18%"></div><div class="cloud" style="left:42%;top:45%"></div>
+<div class="island" style="left:8%;top:35%"></div><div class="island" style="left:72%;top:30%;transform:scale(.8)"></div><div class="island" style="left:45%;top:20%;transform:scale(.55)"></div>
+<div id="ground"></div><img id="logo" src="DerlysTopia_AppIcon.png" alt="DerlysTopia icon">
+<div id="top"><img src="DerlysTopia_AppIcon.png"><div class="panel"><span id="username">Guest_98765</span><br>💎 <span id="gemcount">100</span>　⭐ Level 1</div></div>
+<div class="panel" id="welcomebox">🌎 <span data-i="welcome">Selamat datang di DerlysTopia!</span><br><small>Your World, Your Adventure!</small></div>
+<div id="mainMenu">
+<button class="green" onclick="play()">▶ <span data-i="play">Play</span></button>
+<button onclick="openLogin()">👤 <span data-i="login">Login</span></button>
+<button class="purple" onclick="openLogin(true)">✏️ <span data-i="register">Register</span></button>
+<button class="orange" onclick="openShop()">🛒 <span data-i="shop">Shop</span></button>
+<button onclick="openSettings()">⚙️ <span data-i="settings">Settings</span></button>
+</div>
+<div id="gameUI">
+<div class="panel" id="playerStats">👤 <span id="playerName">Guest_98765</span><br>💎 <span id="gemsHUD">100</span>　🪙 0</div>
+<div id="character">🧑🏻</div>
+<div id="chat">[World] Welcome to DerlysTopia!<br>[World] Have fun and be friendly!</div>
+<div id="controls"><button onclick="move(-1)">⬅</button><button onclick="move(1)">➡</button><button onclick="jump()">⬆</button></div>
+<div id="hotbar"><div class="hot"></div><div class="hot"></div><div class="hot"></div><div class="hot"></div><div class="hot"></div></div>
+</div>
+<div class="panel" id="worlds"><h3 data-i="worldselect">World Select</h3><button onclick="createWorld()">➕ <span data-i="createworld">Create World</span></button><input id="worldSearch" placeholder="Search World..."><div id="worldList"></div><button class="green" onclick="enterWorld()">Enter World</button><button onclick="closeWorlds()">Back</button></div>
+<div class="panel" id="login"><h3 id="loginTitle">Login</h3><input id="loginUser" placeholder="Username / Email"><input type="password" placeholder="Password"><button class="green" onclick="doLogin()">Login / Continue as Guest</button><button onclick="hide('login')">Close</button></div>
+<div class="panel" id="settings"><h3>⚙️ <span data-i="settings">Settings</span></h3><label>Language / Bahasa</label><select id="language" onchange="setLang(this.value)"><option value="id">🇮🇩 Bahasa Indonesia</option><option value="en">🇺🇸 English</option><option value="ja">🇯🇵 日本語</option><option value="pt">🇧🇷 Português</option><option value="es">🇪🇸 Español</option></select><button onclick="hide('settings')">Apply / Close</button></div>
+<div class="panel" id="inventory"><h3>🎒 <span data-i="inventory">Inventory</span> <button onclick="hide('inventory')">✖</button></h3><div class="grid" id="inventoryGrid"></div><button onclick="openShop()">Shop</button></div>
+<div class="panel" id="shop"><h3>🛒 <span data-i="shop">Item Shop</span> <button onclick="hide('shop')">✖</button></h3><div class="grid" id="shopGrid"></div></div>
+<div id="toast"></div>
+</div>
+<script>
+const translations={
+id:{welcome:'Selamat datang di DerlysTopia!',play:'Main',login:'Login',register:'Daftar',shop:'Toko Item',settings:'Pengaturan',inventory:'Inventaris',worldselect:'Pilih Dunia',createworld:'Buat Dunia'},
+en:{welcome:'Welcome to DerlysTopia!',play:'Play',login:'Login',register:'Register',shop:'Item Shop',settings:'Settings',inventory:'Inventory',worldselect:'World Select',createworld:'Create World'},
+ja:{welcome:'DerlysTopiaへようこそ!',play:'プレイ',login:'ログイン',register:'登録',shop:'アイテムショップ',settings:'設定',inventory:'インベントリ',worldselect:'ワールド選択',createworld:'ワールド作成'},
+pt:{welcome:'Bem-vindo ao DerlysTopia!',play:'Jogar',login:'Entrar',register:'Registrar',shop:'Loja de Itens',settings:'Configurações',inventory:'Inventário',worldselect:'Selecionar Mundo',createworld:'Criar Mundo'},
+es:{welcome:'¡Bienvenido a DerlysTopia!',play:'Jugar',login:'Iniciar sesión',register:'Registrarse',shop:'Tienda',settings:'Ajustes',inventory:'Inventario',worldselect:'Elegir mundo',createworld:'Crear mundo'}};
+let lang='id',gems=100,worldName='WELCOME',items={'Dirt':200,'Grass':50,'Stone':50,'Wood Platform':10,'Ladder':5,'Door':1,'World Lock':1,'Blue Gem Lock':1,'Tree':3,'Seed':5,'Torch':2,'Golden Block':99,'Bucket':5,'Blue Crystal':15,'Purple Crystal':10,'Star':5,'Heart':5};
+const shopItems=[['Dirt','🟫',1],['Grass','🟩',1],['Stone','⬜',1],['Wood Platform','🪵',1],['Ladder','🪜',1],['Door','🚪',2],['Air Vent','▤',5],['World Lock','🔒',50],['Blue Gem Lock','🔷',50],['Green Gem Lock','🟢',50],['Red Gem Lock','🔴',50],['Diamond Lock','🔐',75],['World Seed','🍃',5],['Grass Seed','🌱',5],['Wrench','🔧',30],['Fireworks','🎆',50]];
+function t(key){return (translations[lang]||translations.id)[key]||key}function setLang(v){lang=v;document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.getElementById('welcomebox').childNodes[1].textContent=' '+t('welcome');toast('Language changed')}
+function show(id){document.getElementById(id).style.display='block'}function hide(id){document.getElementById(id).style.display='none'}
+function openSettings(){show('settings')}function openShop(){show('shop');renderShop()}function openLogin(reg=false){show('login');document.getElementById('loginTitle').textContent=reg?'Register':'Login'}
+function play(){hide('mainMenu');show('worlds');renderWorlds()}
+function closeWorlds(){hide('worlds');show('mainMenu')}
+function renderWorlds(){document.getElementById('worldList').innerHTML=['WELCOME','DERLYS1','BUILD','FARM','PARKOUR'].map(w=>`<button onclick="worldName='${w}';toast('Selected ${w}')">🌍 ${w}　0/1</button>`).join('')}
+function createWorld(){let n=prompt('Nama dunia:');if(n){worldName=n.toUpperCase();renderWorlds();toast('World created: '+worldName)}}
+function enterWorld(){hide('worlds');document.getElementById('gameUI').style.display='block';show('inventory');renderInventory()}
+function doLogin(){let u=document.getElementById('loginUser').value||'Guest_98765';document.getElementById('username').textContent=u;document.getElementById('playerName').textContent=u;hide('login');toast('Welcome '+u)}
+function renderInventory(){document.getElementById('inventoryGrid').innerHTML=Object.entries(items).map(([n,q])=>`<div class="item" onclick="selected='${n}';toast('Selected ${n}')"><span class="emoji">${emoji(n)}</span>${n}<small>×${q}</small></div>`).join('')}
+function renderShop(){document.getElementById('shopGrid').innerHTML=shopItems.map(([n,e,p])=>`<div class="item" onclick="buy('${n}',${p})"><span class="emoji">${e}</span>${n}<small>💎 ${p}</small></div>`).join('')}
+function emoji(n){return ({Dirt:'🟫',Grass:'🟩',Stone:'⬜','Wood Platform':'🪵',Ladder:'🪜',Door:'🚪','World Lock':'🔒','Blue Gem Lock':'🔷',Tree:'🌳',Seed:'🌱',Torch:'🔥','Golden Block':'🟨',Bucket:'🪣','Blue Crystal':'💎','Purple Crystal':'🔮',Star:'⭐',Heart:'❤️'})[n]||'📦'}
+function buy(n,p){if(gems>=p){gems-=p;items[n]=(items[n]||0)+1;document.getElementById('gemcount').textContent=gems;document.getElementById('gemsHUD').textContent=gems;renderInventory();toast('Purchased '+n)}else toast('Gems tidak cukup')}
+function move(d){let ch=document.getElementById('character');ch.style.left=(parseFloat(ch.style.left||'48')+d*3)+'%'}function jump(){let ch=document.getElementById('character');ch.style.bottom='38%';setTimeout(()=>ch.style.bottom='25%',350)}
+function toast(s){let el=document.getElementById('toast');el.textContent=s;el.style.display='block';setTimeout(()=>el.style.display='none',1500)}
+renderInventory();renderShop();document.getElementById('worldSearch').addEventListener('input',e=>{document.querySelectorAll('#worldList button').forEach(b=>b.style.display=b.textContent.toLowerCase().includes(e.target.value.toLowerCase())?'':'none')});
+</script>
+</body></html>
